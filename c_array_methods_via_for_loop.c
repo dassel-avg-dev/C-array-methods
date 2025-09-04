@@ -37,9 +37,20 @@ int main() {
     addAtV2(arr, count, 100, 2);
     
     display(arr, size);
-
+    deleteEnd(count);
+    display(arr, size);
     
+    deleteFrontV1(arr, count);
+    display(arr, size);
+    
+    deleteFrontV2(arr, count);
+    display(arr, size);
+    
+    deleteAtV1(arr, count, 3);
+    display(arr, size);
 
+    deleteAtV2(arr, count, 2);
+    display(arr, size);
 
     return 0;
 }
@@ -193,5 +204,43 @@ void addAtV2(int arr[], int* count, int item, int pos) {
     arr[pos] = item;
     (*count)++;
 }
+
+void deleteEnd(int* count) {
+    (*count)--;
+}
+
+void deleteFrontV1(int arr[], int* count) {
+    int i;
+    for(i=0; i<(*count)-1; i++) {
+        arr[i] = arr[i+1];
+    }
+    (*count)--;
+}
+
+void deleteFrontV2(int arr[], int* count) {
+    int i;
+    for(i=1; i<(*count); i++) {
+        arr[i-1] = arr[i];
+    }
+    (*count)--;
+}
+
+void deleteAtV1(int arr[], int* count, int pos) {
+    int i;
+    for(i=pos; i<(*count)-1; i++) {
+        arr[i] = arr[i+1];
+    }
+    (*count)--;
+}
+
+void deleteAtV2(int arr[], int* count, int pos) {
+    int i;
+    for(i=pos+1; i<(*count); i++) {
+        arr[i-1] = arr[i];
+    }
+    (*count)--;
+}
+
+
 
 
