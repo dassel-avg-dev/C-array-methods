@@ -23,6 +23,23 @@ void deleteAtV1(int arr[], int* count, int pos);
 void deleteAtV2(int arr[], int* count, int pos);
 
 int main() {
+    int arr[] = {1, 2, 3, 4, 5, 7, 9};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int* count = &size;
+
+    display(arr, size);
+    addFrontV2(arr, count, 6);
+
+    display(arr, size);
+    addAtV1(arr, count, 10, 3);
+    
+    display(arr, size);
+    addAtV2(arr, count, 100, 2);
+    
+    display(arr, size);
+
+    
+
 
     return 0;
 }
@@ -36,10 +53,10 @@ void input(int arr[], int size) {
 
 void display(int arr[], int size) {
     int i;
-    printf("[ ");
+    printf("[");
     for(i=0; i<size; i++) {
         printf("%d", arr[i]);
-        if(i < size) {
+        if(i < size - 1) {
             printf(", ");
         }
     }
@@ -106,6 +123,75 @@ int findItem(int arr[], int size, int item) {
     return found;
 }
 
+int findMax(int arr[], int size) {
+    int i, max = arr[0];
+    for(i=1; i<size; i++) {
+        if(arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
 
+int findMin(int arr[], int size) {
+    int i, min = arr[0];
+    for(i=1; i<size; i++) {
+        if(arr[i] < min) {
+            min = arr[i];
+        }
+    }
+    return min;
+}
+
+int isPalindrome(int arr[], int size) {
+    int i, palindrome=1;
+    for(i=0; i<size/2; i++) {
+        if(arr[i]!=arr[size-1-i]) {
+            palindrome = 0; 
+            break;
+        }
+    }
+    return palindrome;
+}
+
+void add(int arr[], int* count, int item) {
+    arr[(*count)++] = item;
+}
+
+void addFrontV1(int arr[], int* count, int item) {
+    int i;
+    for(i = *count; i>0; i--) {
+        arr[i] = arr[i - 1]; // shift elements to the right until index 1;
+    }
+    arr[0] = item;
+    (*count)++;
+}
+
+void addFrontV2(int arr[], int* count, int item) {
+    int i;
+    for(i = *count - 1; i>=0; i--) { // shift elements to the right up to index zero
+        arr[i+1] = arr[i];
+    }
+    arr[0] = item;
+    (*count)++;
+}
+
+void addAtV1(int arr[], int* count, int item, int pos) {
+    int i;
+    for(i= *count; i>pos; i--) {
+        arr[i] = arr[i-1];
+    }
+    arr[pos] = item;
+    (*count)++;
+}
+
+void addAtV2(int arr[], int* count, int item, int pos) {
+    int i;
+    for(i= *count - 1; i>=pos; i--) {
+        arr[i+1] = arr[i];
+    }
+    arr[pos] = item;
+    (*count)++;
+}
 
 
