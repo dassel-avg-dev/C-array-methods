@@ -27,6 +27,12 @@ Point initPoint(int x, int y) {
     return p;
 }
 
+
+// Display a point
+void displayPoint(Point p) {
+    printf("(%d, %d) ", p.x, p.y);
+}
+
 // Function to create a default line from (0,0) to (0,0)
 Line createLine() {
     Line line;
@@ -41,11 +47,6 @@ Line initLine(Point p1, Point p2) {
     line.beg = p1;
     line.end= p2;
     return line;
-}
-
-// Display a point
-void displayPoint(Point p) {
-    printf("(%d, %d) ", p.x, p.y);
 }
 
 // Display a line as two points
