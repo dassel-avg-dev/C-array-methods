@@ -1,178 +1,116 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
-    int value;
-    struct Node* next;
-} Node;
+typedef struct node* nodeptr;
 
-// Create a new node
-Node* createNode(int value) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    if (!newNode) {
-        printf("Memory allocation failed!\n");
-        exit(1);
-    }
-    newNode->value = value;
-    newNode->next = NULL;
-    return newNode;
+typedef struct node {
+    int data;
+    nodeptr next;
+}Node;
+
+typedef Node* List;
+
+void display(List head);
+
+int findItem(List head, int item);
+
+int findMax(List head);
+
+int findMin(List head);
+
+int computeSum(List head);
+
+List createList(int value);
+
+int main() {
+    //              manual allocate and assign
+    // List head = (nodeptr)malloc(sizeof(Node)); // your root node
+    // head->data = 1;
+
+    // head->next = (nodeptr)malloc(sizeof(Node)); // 2nd node
+    // head->next->data = 2;
+
+    // head->next->next = (nodeptr)malloc(sizeof(Node));
+    // head->next->next->data = 3;
+
+    // head->next->next->next = (nodeptr)malloc(sizeof(Node));
+    // head->next->next->next->data = 4;
+
+    // head->next->next->next->next = NULL;
+
+    List head = createList(1);
+    head->next = createList(2);
+    head->next->next = createList(3);
+    head->next->next->next = createList(4);
+    head->next->next->next->next = createList(5);
+    head->next->next->next->next->next = createList(6);
+
+    display(head);
+
+    return 0;
 }
 
-// Print the list
-void printList(Node* head) {
-    Node* current = head;
-    while (current != NULL) {
-        printf("%d -> ", current->value);
-        current = current->next;
+int findItem(List head, int item) {
+    nodeptr ptr = head;
+    int found = 0;
+    while(ptr != NULL) {
+        if(ptr->data == item) {
+            found = 1;
+            break;
+        }
+        ptr = ptr->next;
+    }
+    return found;
+}
+
+int findMax(List head) {
+    nodeptr ptr = head;
+    int max = ptr->data;
+    while(ptr != NULL) {
+        if(ptr->data > max) {
+            max = ptr->data;
+        }
+        ptr = ptr->next;
+    }
+    return max;
+}
+
+int findMin(List head) {
+    nodeptr ptr = head;
+    int min = ptr->data;
+    while(ptr != NULL) {
+        if(ptr->data < min) {
+            min = ptr->data;
+        }
+        ptr = ptr->next;
+    }
+    return min;
+}
+
+int computeSum(List head) {
+    nodeptr ptr = head;
+    int sum = 0;
+    while(ptr != NULL) {
+        sum += ptr->data;
+        ptr = ptr->next;
+    }
+    return sum;
+}
+
+void display(List head) {
+    nodeptr ptr = head;
+    while(ptr != NULL) {
+        printf("%d -> ", ptr->data);
+        ptr = ptr->next;
     }
     printf("NULL\n");
 }
 
-// Insert at end
-void insertAtEnd(Node** head, int value) {
-    Node* newNode = createNode(value);
-    if (*head == NULL) {
-        *head = newNode;
-        return;
-    }
+List createList(int value) {
+    List newNode = (nodeptr)malloc(sizeof(Node));
 
-    Node* current = *head;
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    current->next = newNode;
-}
+    newNode->data = value;
+    newNode->next = NULL;
 
-// Insert at beginning
-void insertAtBeginning(Node** head, int value) {
-    Node* newNode = createNode(value);
-    newNode->next = *head;
-    *head = newNode;
-}
-
-// Insert at a given position (0-based index)
-void insertAtPosition(Node** head, int value, int position) {
-    if (position == 0) {
-        insertAtBeginning(head, value);
-        return;
-    }
-
-    Node* newNode = createNode(value);
-    Node* current = *head;
-    for (int i = 0; i < position - 1 && current != NULL; i++) {
-        current = current->next;
-    }
-
-    if (current == NULL) {
-        printf("Position out of bounds\n");
-        free(newNode);
-        return;
-    }
-
-    newNode->next = current->next;
-    current->next = newNode;
-}
-
-// Delete by value
-void deleteByValue(Node** head, int value) {
-    Node* current = *head;
-    Node* prev = NULL;
-
-    while (current != NULL && current->value != value) {
-        prev = current;
-        current = current->next;
-    }
-
-    if (current == NULL) {
-        printf("Value %d not found in the list.\n", value);
-        return;
-    }
-
-    if (prev == NULL) {
-        *head = current->next;
-    } else {
-        prev->next = current->next;
-    }
-
-    free(current);
-}
-
-// Delete from beginning
-void deleteFromBeginning(Node** head) {
-    if (*head == NULL) return;
-    Node* temp = *head;
-    *head = (*head)->next;
-    free(temp);
-}
-
-// Delete from end
-void deleteFromEnd(Node** head) {
-    if (*head == NULL) return;
-
-    if ((*head)->next == NULL) {
-        free(*head);
-        *head = NULL;
-        return;
-    }
-
-    Node* current = *head;
-    while (current->next->next != NULL) {
-        current = current->next;
-    }
-
-    free(current->next);
-    current->next = NULL;
-}
-
-// Search for a value
-int search(Node* head, int value) {
-    int position = 0;
-    while (head != NULL) {
-        if (head->value == value) return position;
-        head = head->next;
-        position++;
-    }
-    return -1;
-}
-
-// Free the entire list
-void freeList(Node** head) {
-    Node* current = *head;
-    while (current != NULL) {
-        Node* temp = current;
-        current = current->next;
-        free(temp);
-    }
-    *head = NULL;
-}
-
-// Main function to test
-int main() {
-    Node* head = NULL;
-
-    insertAtEnd(&head, 10);
-    insertAtEnd(&head, 20);
-    insertAtEnd(&head, 30);
-    printList(head); // 10 -> 20 -> 30 -> NULL
-
-    insertAtBeginning(&head, 5);
-    printList(head); // 5 -> 10 -> 20 -> 30 -> NULL
-
-    insertAtPosition(&head, 15, 2);
-    printList(head); // 5 -> 10 -> 15 -> 20 -> 30 -> NULL
-
-    deleteByValue(&head, 10);
-    printList(head); // 5 -> 15 -> 20 -> 30 -> NULL
-
-    deleteFromBeginning(&head);
-    printList(head); // 15 -> 20 -> 30 -> NULL
-
-    deleteFromEnd(&head);
-    printList(head); // 15 -> 20 -> NULL
-
-    int index = search(head, 20);
-    printf("Value 20 found at index: %d\n", index); // Should print 1
-
-    freeList(&head);
-    return 0;
+    return newNode;
 }
