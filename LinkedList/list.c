@@ -14,6 +14,7 @@ List createNode(int value) {
 List createList() {
     List head;
     int nodes;
+
     printf("Enter how many nodes should be in the list: ");
     scanf("%d", &nodes);
 
@@ -21,12 +22,12 @@ List createList() {
     head = (nodeptr)malloc(sizeof(Node));
     scanf("%d",&head->data);
 
-    nodeptr ptr = head;
+    nodeptr ptr = head; // create node pointer that points to head
     for(int i=2; i<=nodes; i++) {
         printf("Enter node %d: ", i);
-        ptr->next = (nodeptr)malloc(sizeof(Node));
-        scanf("%d",&ptr->next->data);
-        ptr = ptr->next;
+        ptr->next = (nodeptr)malloc(sizeof(Node)); // create and allocate new node
+        scanf("%d",&ptr->next->data); // store input in the new node
+        ptr = ptr->next; // move pointer 
     }
 
     return head;
