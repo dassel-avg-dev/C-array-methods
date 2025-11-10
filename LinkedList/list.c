@@ -2,36 +2,79 @@
 #include <stdlib.h>
 #include "list.h"
 
-List createNode(int value) {
-    List newNode = (nodeptr)malloc(sizeof(Node));
-
-    newNode->data = value;
+nodeptr createNode(int item) {
+    nodeptr newNode = (nodeptr)malloc(sizeof(Node));
+    if(newNode == NULL) {
+        printf("Malloc failed!\n");
+    }
+    newNode->data = item;
     newNode->next = NULL;
 
     return newNode;
 }
 
-List createList() {
-    List head;
-    int nodes;
-
-    printf("Enter how many nodes should be in the list: ");
-    scanf("%d", &nodes);
-
-    printf("Enter node 1: ");
-    head = (nodeptr)malloc(sizeof(Node));
-    scanf("%d",&head->data);
-
-    nodeptr ptr = head; // create node pointer that points to head
-    for(int i=2; i<=nodes; i++) {
-        printf("Enter node %d: ", i);
-        ptr->next = (nodeptr)malloc(sizeof(Node)); // create and allocate new node
-        scanf("%d",&ptr->next->data); // store input in the new node
-        ptr = ptr->next; // move pointer 
+List createList(int size) {
+    List head = (nodeptr)malloc(sizeof(Node));
+    // node size greater than 1
+    printf("Enter values\n");
+    if(size != 1 && size > 1) {
+        scanf("%d",&head->data);
+        head->next = NULL;
+        nodeptr ptr = head;
+        for(int i=2; i<=size; i++) {
+            scanf("%d",&ptr->next->data);
+            ptr->next->next = NULL;
+            ptr = ptr->next;
+        }
     }
-
+    else { // node size equal to 1
+        scanf("%d",&head->data);
+        head->next = NULL;
+    }
     return head;
 }
+
+List addAt(List head, int item, int pos) {
+    nodeptr temp = (nodeptr)malloc(sizeof(Node));
+    temp->data = item;
+    temp->next = NULL;
+    if(pos!=1) {
+        nodeptr ptr = head;
+        int i=1;
+        while(i < pos - 1) {
+            ptr = ptr->next;
+            i++;
+        }
+        temp->next = ptr->next;
+        ptr->next = temp;
+    }
+    else {
+        temp->next = head;
+        head = temp;
+    }
+    return head;
+}
+
+List addFront(List head, int item) {
+    nodeptr temp = (nodeptr)malloc(sizeof(Node));
+    temp->data = item;
+    temp->next = head;
+    head = temp;
+    return head;
+}
+
+List addEnd(List head, int item) {
+    nodeptr temp = (nodeptr)malloc(sizeof(Node));
+    temp->data = item;
+    temp->next = NULL;
+    nodeptr ptr = head;
+    while(ptr->next != NULL) {
+        ptr = ptr->next;
+    }
+    ptr->next = temp;
+    return head;
+}
+
 
 int findItem(List head, int item) {
     nodeptr ptr = head;
@@ -93,7 +136,7 @@ int computeSum(List head) {
 
 void display(List head) {
     nodeptr ptr = head;
-    while(ptr != NULL) {
+    while(ptr->next != NULL) {
         printf("%d -> ", ptr->data);
         ptr = ptr->next;
     }

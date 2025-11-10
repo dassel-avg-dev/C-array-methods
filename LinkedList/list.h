@@ -8,9 +8,15 @@ typedef struct node {
 
 typedef Node* List;
 
-List createNode(int value);
+nodeptr createNode(int item);
 
-List createList();
+List createList(int size);
+
+List addAt(List head, int item, int pos);
+
+List addFront(List head, int item);
+
+List addEnd(List head, int item);
 
 void display(List head);
 
@@ -23,4 +29,6 @@ int findMin(List head);
 int count(List head);
 
 int computeSum(List head);
+
+
 

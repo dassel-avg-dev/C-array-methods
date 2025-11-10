@@ -1,6 +1,5 @@
-
 run:
 	gcc -o out.exe *.c && .\out.exe && del *.exe
 
-clean:
+clean: 
 	del *.exe
