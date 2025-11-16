@@ -67,15 +67,15 @@ ListNodeptr removeNodes(ListNodeptr head, int val) {
 
 ListNodeptr deleteMiddleNode(ListNodeptr head) {
     int size = getListSize(head);
-    if(size % 2 == 0) {
-        size--;
-    }
     size /= 2;
     ListNodeptr curr = head;
-    for(int i = 1; i < size; i++) {
+    for(int i = 0; i < size-1; i++) {
         curr = curr->next;
     }
-    curr->next = curr->next->next;
+    ListNodeptr temp = curr->next;
+    curr->next = temp->next;
+    temp->next = NULL;
+    free(temp);
     return head;
 } 
 
@@ -99,7 +99,7 @@ void freeList(ListNodeptr head) {
     printf("\nSuccesfully freed all nodes");
 }
 int main() { 
-    ListNodeptr head = createList(7);
+    ListNodeptr head = createList(8);
     // 1, 2, 3, 4, 5, 6, 7
     display(head);
     head = deleteMiddleNode(head);
