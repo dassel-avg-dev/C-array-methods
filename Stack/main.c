@@ -4,21 +4,20 @@
 
 int main()
 {
-	Stack s = createStack();
-	push(s, 10);
-	push(s, 20);
-	push(s, 30);
-	display(s);
-	printf((isEmpty(s)) ? "Stack is empty\n" : "Stack is not empty\n");
-	pop(s);
-	display(s);
-	pop(s);
-	display(s);
-	pop(s);
-	display(s);
-	printf((isEmpty(s)) ? "Stack is empty\n" : "Stack is not empty\n");
-	push(s, 40);
-	display(s);
-	printf((isEmpty(s)) ? "Stack is empty\n" : "Stack is not empty\n");
+	Stack s1 = createStack();
+	Stack s2 = createStack();
+	// stack 1
+	push(s1, 1);
+	push(s1, 2);
+	push(s1, 3);
+	// stack 2
+	push(s2, 1);
+	push(s2, 2);
+	push(s2, 3);
+
+	display(s1);
+	display(s2);
+	
+	printf((isEqual(s1, s2)) ? "Equal\n" : "Not equal\n");
 	return 0;
 }
