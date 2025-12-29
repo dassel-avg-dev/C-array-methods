@@ -14,4 +14,4 @@ int main() {
     display(q1);
 
     return 0;
-}
+} 
